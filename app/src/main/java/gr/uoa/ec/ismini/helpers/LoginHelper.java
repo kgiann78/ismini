@@ -1,4 +1,4 @@
-package gr.uoa.ec.ismini;
+package gr.uoa.ec.ismini.helpers;
 
 /**
  * Created by constantine on 6/24/16.

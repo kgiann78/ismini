@@ -30,13 +30,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.google.android.gms.wallet.firstparty.GetBuyFlowInitializationTokenRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
-import static gr.uoa.ec.ismini.LoginHelper.DUMMY_CREDENTIALS;
+import static gr.uoa.ec.ismini.helpers.LoginHelper.DUMMY_CREDENTIALS;
 
 /**
  * A login screen that offers login via email/password.
