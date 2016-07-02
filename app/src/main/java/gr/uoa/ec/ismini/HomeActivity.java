@@ -19,6 +19,12 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // WebServer Request URL
+        String serverURL = "http://androidexample.com/media/webservice/JsonReturn.php";
+
+        // AddressWebService
+        //http://snf-649502.vm.okeanos.grnet.gr:8080/AddressWebService/AddressWebService?WSDL
+
         Button fab = (Button) findViewById(R.id.ButtonViewCart);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
