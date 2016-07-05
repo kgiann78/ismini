@@ -9,8 +9,18 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import gr.uoa.ec.ismini.webservices.AddressWebService;
+import gr.uoa.ec.ismini.webservices.StoreWebService;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
+
+    static boolean isStarting = true;
+    final List<String> value = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +28,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final StoreWebService service = new StoreWebService(this);
+        final AddressWebService addressWebService = new AddressWebService(this);
 
         // WebServer Request URL
         String serverURL = "http://androidexample.com/media/webservice/JsonReturn.php";
@@ -25,14 +37,30 @@ public class HomeActivity extends AppCompatActivity {
         // AddressWebService
         //http://snf-649502.vm.okeanos.grnet.gr:8080/AddressWebService/AddressWebService?WSDL
 
+        if (isStarting) {
+            service.execute("estimateCompletionTimeByStore", "1");
+//            addressWebService.execute("count");
+            isStarting = false;
+        }
+
+
+        Bundle extras = getIntent().getExtras();
+        if(extras !=null) {
+            value.add(extras.getString("result"));
+        }
+
         Button fab = (Button) findViewById(R.id.ButtonViewCart);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                doSmthing(view, value.toString());
             }
         });
+    }
+
+    public void doSmthing(View view, String value) {
+        Snackbar.make(view, value, Snackbar.LENGTH_LONG)//"Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @Override
