@@ -86,7 +86,7 @@ public class StoreWebService extends SoapThread {
     @Override
     protected void onPostExecute(String s) {
         Intent resultIntent = new Intent(parent, HomeActivity.class);
-        String msg = "SOAP result: " + s;
+        String msg = s;
         resultIntent.putExtra("result", msg);
         parent.startActivity(resultIntent);
     }

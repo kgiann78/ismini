@@ -158,7 +158,7 @@ public class Customer implements KvmSerializable {
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return "{" +
                 "key=" + key +
                 ", addressKey=" + addressKey +
                 ", firstName='" + firstName + '\'' +

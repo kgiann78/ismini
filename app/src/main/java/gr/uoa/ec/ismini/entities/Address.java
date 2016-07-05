@@ -17,6 +17,22 @@ public class Address implements KvmSerializable {
         this.key = key;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getKey() {
+        return key;
+    }
+
+    public void setKey(Integer key) {
+        this.key = key;
+    }
+
     @Override
     public Object getProperty(int index) {
         switch(index)
@@ -68,8 +84,8 @@ public class Address implements KvmSerializable {
 
     @Override
     public String toString() {
-        return "Address{" +
-                "description='" + description + '\'' +
+        return "{" +
+                "description=\'" + description + "\'" +
                 ", key=" + key +
                 '}';
     }

@@ -123,10 +123,10 @@ public class Store implements KvmSerializable {
 
     @Override
     public String toString() {
-        return "Store{" +
+        return "{" +
                 "addressKey=" + addressKey +
                 ", key=" + key +
-                ", name='" + name + '\'' +
+                ", name=\'" + name + '\'' +
                 ", radius=" + radius +
                 '}';
     }
