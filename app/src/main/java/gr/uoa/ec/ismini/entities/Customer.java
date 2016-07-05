@@ -49,7 +49,7 @@ public class Customer implements KvmSerializable {
 
     @Override
     public int getPropertyCount() {
-        return 4;
+        return 6;
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import gr.uoa.ec.ismini.webservices.AddressWebService;
+import gr.uoa.ec.ismini.webservices.CustomerWebService;
 import gr.uoa.ec.ismini.webservices.StoreWebService;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -30,6 +31,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         final StoreWebService service = new StoreWebService(this);
         final AddressWebService addressWebService = new AddressWebService(this);
+        final CustomerWebService customerWebService = new CustomerWebService(this);
 
         // WebServer Request URL
         String serverURL = "http://androidexample.com/media/webservice/JsonReturn.php";
@@ -38,8 +40,9 @@ public class HomeActivity extends AppCompatActivity {
         //http://snf-649502.vm.okeanos.grnet.gr:8080/AddressWebService/AddressWebService?WSDL
 
         if (isStarting) {
-            service.execute("estimateCompletionTimeByStore", "1");
-//            addressWebService.execute("count");
+//            service.execute("estimateCompletionTimeByStore", "1");
+//            addressWebService.execute("findAll");
+            customerWebService.execute("findAll");
             isStarting = false;
         }
 

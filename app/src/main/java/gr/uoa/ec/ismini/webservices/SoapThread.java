@@ -25,7 +25,6 @@ public abstract class SoapThread extends AsyncTask<String, Void, String> {
 
         for (String key : properties.keySet()) {
             request.addProperty(key, properties.get(key));
-            Log.i("soap_thread", key + " " + properties.get(key));
         }
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER10);

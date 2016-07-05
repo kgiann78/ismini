@@ -36,8 +36,14 @@ public class AddressWebService extends SoapThread {
         try {
             if (strings.length > 0) {
                 if (strings[0].equals(FIND_ALL)) {
-                    Vector<SoapObject> result = (Vector<SoapObject>)soapCall(FIND_ALL, NAMESPACE + SERVICE + "/findAllRequest");
-                    response = RetrieveFromSoap(result).toString();
+                    Object result = soapCall(FIND_ALL, NAMESPACE + SERVICE + "/findAllRequest");
+
+                    if (result instanceof Vector) {
+                        response = RetrieveFromSoap((Vector<SoapObject>)result).toString();
+                    } else if (result instanceof SoapObject) {
+                        response = RetrieveFromSoap((SoapObject)result).toString();
+                    }
+
                     Log.i("soap_response", response.toString());
                 }else if (strings[0].equals(FIND)) {
                     HashMap<String, Object> properties = new HashMap<>();

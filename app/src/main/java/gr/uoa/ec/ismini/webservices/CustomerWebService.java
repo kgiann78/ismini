@@ -6,7 +6,6 @@ import android.util.Log;
 import gr.uoa.ec.ismini.HomeActivity;
 import gr.uoa.ec.ismini.entities.Address;
 import gr.uoa.ec.ismini.entities.Customer;
-import gr.uoa.ec.ismini.entities.Store;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.xmlpull.v1.XmlPullParserException;
@@ -34,8 +33,14 @@ public class CustomerWebService extends SoapThread {
         try {
             if (strings.length > 0) {
                 if (strings[0].equals(FIND_ALL)) {
-                    Vector<SoapObject> result = (Vector<SoapObject>)soapCall(FIND_ALL, NAMESPACE + SERVICE + "/findAllRequest");
-                    response = RetrieveFromSoap(result).toString();
+                    Object result = soapCall(FIND_ALL, NAMESPACE + SERVICE + "/findAllRequest");
+
+                    if (result instanceof Vector) {
+                        response = RetrieveFromSoap((Vector<SoapObject>)result).toString();
+                    } else if (result instanceof SoapObject) {
+                        response = RetrieveFromSoap((SoapObject)result).toString();
+                    }
+
                     Log.i("soap_response", response.toString());
                 }else if (strings[0].equals(FIND)) {
                     HashMap<String, Object> properties = new HashMap<>();
@@ -52,9 +57,13 @@ public class CustomerWebService extends SoapThread {
             }
 
         } catch (IOException e) {
+            Log.e("soap_response", e.toString());
             e.printStackTrace();
         } catch (XmlPullParserException e) {
+            Log.e("soap_response", e.toString());
             e.printStackTrace();
+        } catch (Exception e) {
+            Log.e("soap_response", e.toString());
         }
         finally {
             return response;
@@ -79,20 +88,20 @@ public class CustomerWebService extends SoapThread {
         int addressKey = Integer.parseInt(soapAddress.getProperty(1).toString());
         Address address = new Address(description, addressKey);
 
-        int key = Integer.parseInt(soapObject.getProperty(1).toString());
-        String name = soapObject.getProperty(2).toString();
-        String lastname = soapObject.getProperty(3).toString();
-        String username = soapObject.getProperty(4).toString();
-        String password = soapObject.getProperty(5).toString();
+        int key = Integer.parseInt(soapObject.getProperty(2).toString());
+        String firstName = soapObject.getProperty(1).toString();
+        String lastName = soapObject.getProperty(3).toString();
+        String username = soapObject.getProperty(5).toString();
+        String password = soapObject.getProperty(4).toString();
 
-        Customer customer = new Customer(address, key, name, lastname, username, password);
+        Customer customer = new Customer(address, key, firstName, lastName, username, password);
 
         return customer;
     }
 
     public List<Customer> RetrieveFromSoap(Vector<SoapObject> soapObjectVector) {
         List<Customer> customerList = new ArrayList<Customer>();
-
+        Log.i("soap_response", "mphka kai edw");
         for (int i = 0; i < soapObjectVector.size(); i++) {
             SoapObject soapCustomer = soapObjectVector.get(i);
 
@@ -102,13 +111,14 @@ public class CustomerWebService extends SoapThread {
             int addressKey = Integer.parseInt(soapAddress.getProperty(1).toString());
             Address address = new Address(description, addressKey);
 
-            int key = Integer.parseInt(soapCustomer.getProperty(1).toString());
-            String name = soapCustomer.getProperty(2).toString();
-            String lastname = soapCustomer.getProperty(3).toString();
-            String username = soapCustomer.getProperty(4).toString();
-            String password = soapCustomer.getProperty(5).toString();
+            int key = Integer.parseInt(soapCustomer.getProperty(2).toString());
+            String firstName = soapCustomer.getProperty(1).toString();
+            String lastName = soapCustomer.getProperty(3).toString();
+            String username = soapCustomer.getProperty(5).toString();
+            String password = soapCustomer.getProperty(4).toString();
 
-            Customer customer = new Customer(address, key, name, lastname, username, password);
+            Customer customer = new Customer(address, key, firstName, lastName, username, password);
+            Log.i("soap_response", customer.toString());
             customerList.add(customer);
         }
         return customerList;
