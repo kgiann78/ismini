@@ -1,20 +1,24 @@
 
-package gr.uoa.ec.ismini.entities;
-import java.util.Hashtable;
+package gr.uoa.ec.ismini.models;
+
 import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
 
-public class Address implements KvmSerializable {
+import java.util.Hashtable;
 
-    protected String description;
+public class Category implements KvmSerializable {
+
+    private String description;
     protected Integer key;
+    protected String name;
 
-    public Address() {
+    public Category() {
     }
 
-    public Address(String description, Integer key) {
+    public Category(String description, Integer key, String name) {
         this.description = description;
         this.key = key;
+        this.name = name;
     }
 
     public String getDescription() {
@@ -31,6 +35,14 @@ public class Address implements KvmSerializable {
 
     public void setKey(Integer key) {
         this.key = key;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -85,8 +97,9 @@ public class Address implements KvmSerializable {
     @Override
     public String toString() {
         return "{" +
-                "description=\'" + description + "\'" +
+                "description='" + description + '\'' +
                 ", key=" + key +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

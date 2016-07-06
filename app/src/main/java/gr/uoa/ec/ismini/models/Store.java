@@ -1,15 +1,15 @@
 
-package gr.uoa.ec.ismini.entities;
+package gr.uoa.ec.ismini.models;
 import java.util.Hashtable;
 import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
 
 public class Store implements KvmSerializable {
 
-    protected Address addressKey;
+    private Address addressKey;
     protected Integer key;
     protected String name;
-    protected float radius;
+    private float radius;
 
     public Store() {
     }

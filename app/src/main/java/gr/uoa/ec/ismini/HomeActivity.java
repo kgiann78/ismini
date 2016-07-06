@@ -1,111 +1,95 @@
 package gr.uoa.ec.ismini;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.google.gson.Gson;
-import gr.uoa.ec.ismini.entities.Store;
+import gr.uoa.ec.ismini.helpers.ProductAdapter;
+import gr.uoa.ec.ismini.helpers.ProductsDummy;
+import gr.uoa.ec.ismini.models.Product;
+import gr.uoa.ec.ismini.models.Store;
+import gr.uoa.ec.ismini.helpers.StoreAdapter;
 import gr.uoa.ec.ismini.webservices.AddressWebService;
 import gr.uoa.ec.ismini.webservices.CustomerWebService;
 import gr.uoa.ec.ismini.webservices.StoreWebService;
 
-
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class HomeActivity extends AppCompatActivity {
 
-    static boolean isStarting = true;
-    String soapResult = "";
-    final List<String> value = new ArrayList<>();
-    Store[] stores = {};
+    static private boolean isStarting = true;
+    private String soapResult = "";
+    //    Store[] stores = {};
+    private Product[] products = {};
+
+    private StoreWebService storeWebService;
+    private AddressWebService addressWebService;
+    private CustomerWebService customerWebService;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ListView mListView;
+    private ListAdapter mAdapter;
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        final StoreWebService service = new StoreWebService(this);
-        final AddressWebService addressWebService = new AddressWebService(this);
-        final CustomerWebService customerWebService = new CustomerWebService(this);
+        storeWebService = new StoreWebService(this);
+        addressWebService = new AddressWebService(this);
+        customerWebService = new CustomerWebService(this);
 
-        // WebServer Request URL
-        String serverURL = "http://androidexample.com/media/webservice/JsonReturn.php";
-
-        // AddressWebService
-        //http://snf-649502.vm.okeanos.grnet.gr:8080/AddressWebService/AddressWebService?WSDL
-
-
-
-
+        extras = getIntent().getExtras();
 
         if (isStarting) {
-            service.execute("findAll");
-//            addressWebService.execute("findAll");
-//            customerWebService.execute("findAll");
+            storeWebService.execute("findAll");
             isStarting = false;
         }
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        mListView = (ListView) findViewById(R.id.activity_main_listview);
 
-        Bundle extras = getIntent().getExtras();
-        if(extras !=null) {
-            soapResult = extras.getString("result");
-            Log.i("soap_response", soapResult);
-            try {
-                stores = new Gson().fromJson(soapResult, Store[].class);
-            } catch (Exception e) {
-                Log.e("soap_response", e.toString());
-            }
+        updateStores();
 
-            value.add(extras.getString("result"));
-        }
-
-        ListAdapter listAdapter = new CustomAdapter(this, stores);
-        ListView listView = (ListView) findViewById(R.id.ListViewCatalog);
-        listView.setAdapter(listAdapter);
-
-        Button fab = (Button) findViewById(R.id.ButtonViewCart);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
-                doSmthing(view, value);
+            public void onRefresh() {
+                refreshContent();
             }
         });
     }
 
-    public void doSmthing(View view, List<String> value) {
+    public void refreshContent() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                HomeActivity.this.storeWebService.execute("findAll");
+                updateStores();
 
-//        try {
-//            Store[] stores = new Gson().fromJson(value.toString(), Store[].class);
-//            for (Store store : stores)
-//                Log.i("soap_response", store.toString());
-//        } catch (Exception e) {
-//            Log.e("soap_response", e.toString());
-//        } finally {
-//            Snackbar.make(view, value.get(0), Snackbar.LENGTH_LONG)//"Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show();
-//        }
-
-
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }, 3000);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
-        return true;
+    public void updateStores() {
+        if (extras != null) {
+            soapResult = extras.getString("result");
+            Log.i("soap_response", soapResult);
+            try {
+                products = ProductsDummy.getProducts();
+//                stores = new Gson().fromJson(soapResult, Store[].class);
+
+                mListView.setAdapter(null);
+//                mAdapter = new StoreAdapter(HomeActivity.this, stores);
+                mAdapter = new ProductAdapter(HomeActivity.this, products);
+                mListView.setAdapter(mAdapter);
+            } catch (Exception e) {
+                Log.e("soap_response", e.toString());
+            }
+        }
     }
 
     @Override

@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import gr.uoa.ec.ismini.HomeActivity;
-import gr.uoa.ec.ismini.entities.Address;
-import gr.uoa.ec.ismini.entities.Customer;
+import gr.uoa.ec.ismini.models.Address;
+import gr.uoa.ec.ismini.models.Customer;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.xmlpull.v1.XmlPullParserException;
@@ -27,7 +27,7 @@ public class CustomerWebService extends SoapThread {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected Object doInBackground(String... strings) {
         String response = "";
 
         try {
@@ -40,30 +40,20 @@ public class CustomerWebService extends SoapThread {
                     } else if (result instanceof SoapObject) {
                         response = RetrieveFromSoap((SoapObject)result).toString();
                     }
-
-                    Log.i("soap_response", response.toString());
                 }else if (strings[0].equals(FIND)) {
                     HashMap<String, Object> properties = new HashMap<>();
                     properties.put("id", Integer.parseInt(strings[1]));
 
                     SoapObject result = (SoapObject) soapCallWithProperties(FIND, NAMESPACE + SERVICE + "/findRequest", properties);
                     response = RetrieveFromSoap(result).toString();
-                    Log.i("soap_response", response.toString());
                 } else if (strings[0].equals(COUNT)) {
                     SoapPrimitive result = (SoapPrimitive) soapCall(COUNT, NAMESPACE + SERVICE + "/countRequest");
                     response = RetrieveFromSoap(result).toString();
-                    Log.i("soap_response", response.toString());
                 }
             }
 
-        } catch (IOException e) {
-            Log.e("soap_response", e.toString());
-            e.printStackTrace();
-        } catch (XmlPullParserException e) {
-            Log.e("soap_response", e.toString());
-            e.printStackTrace();
         } catch (Exception e) {
-            Log.e("soap_response", e.toString());
+            Log.e(CustomerWebService.class.toString() + ": soap_response", e.toString());
         }
         finally {
             return response;
@@ -71,16 +61,15 @@ public class CustomerWebService extends SoapThread {
     }
 
     @Override
-    protected void onPostExecute(String s) {
+    protected void onPostExecute(Object s) {
         Intent resultIntent = new Intent(parent, HomeActivity.class);
-        String msg = "SOAP result: " + s;
-        resultIntent.putExtra("result", msg);
+        resultIntent.putExtra("result", s.toString());
         parent.startActivity(resultIntent);
     }
 
 
 
-    public Customer RetrieveFromSoap(SoapObject soapObject)
+    private Customer RetrieveFromSoap(SoapObject soapObject)
     {
         Log.i("soap_response", soapObject.toString());
         SoapObject soapAddress = (SoapObject) soapObject.getProperty(0);
@@ -94,17 +83,13 @@ public class CustomerWebService extends SoapThread {
         String username = soapObject.getProperty(5).toString();
         String password = soapObject.getProperty(4).toString();
 
-        Customer customer = new Customer(address, key, firstName, lastName, username, password);
-
-        return customer;
+        return new Customer(address, key, firstName, lastName, username, password);
     }
 
-    public List<Customer> RetrieveFromSoap(Vector<SoapObject> soapObjectVector) {
+    private List<Customer> RetrieveFromSoap(Vector<SoapObject> soapObjectVector) {
         List<Customer> customerList = new ArrayList<Customer>();
         Log.i("soap_response", "mphka kai edw");
-        for (int i = 0; i < soapObjectVector.size(); i++) {
-            SoapObject soapCustomer = soapObjectVector.get(i);
-
+        for (SoapObject soapCustomer : soapObjectVector) {
             // get address
             SoapObject soapAddress = (SoapObject) soapCustomer.getProperty(0);
             String description = soapAddress.getProperty(0).toString();
@@ -117,14 +102,12 @@ public class CustomerWebService extends SoapThread {
             String username = soapCustomer.getProperty(5).toString();
             String password = soapCustomer.getProperty(4).toString();
 
-            Customer customer = new Customer(address, key, firstName, lastName, username, password);
-            Log.i("soap_response", customer.toString());
-            customerList.add(customer);
+            customerList.add(new Customer(address, key, firstName, lastName, username, password));
         }
         return customerList;
     }
 
-    public Object RetrieveFromSoap(SoapPrimitive soapPrimitive) {
+    private Object RetrieveFromSoap(SoapPrimitive soapPrimitive) {
         return soapPrimitive.getValue();
     }
 }

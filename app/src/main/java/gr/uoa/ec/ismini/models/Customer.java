@@ -1,5 +1,5 @@
 
-package gr.uoa.ec.ismini.entities;
+package gr.uoa.ec.ismini.models;
 
 import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
@@ -9,11 +9,11 @@ import java.util.Hashtable;
 public class Customer implements KvmSerializable {
 
     protected Integer key;
-    protected Address addressKey;
-    protected String firstName;
-    protected String lastName;
-    protected String username;
-    protected String password;
+    private Address addressKey;
+    private String firstName;
+    private String lastName;
+    private String username;
+    private String password;
 
     public Customer() {
     }

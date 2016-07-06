@@ -1,4 +1,4 @@
-package gr.uoa.ec.ismini;
+package gr.uoa.ec.ismini.helpers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,12 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import gr.uoa.ec.ismini.entities.Store;
-import org.w3c.dom.Text;
+import gr.uoa.ec.ismini.R;
+import gr.uoa.ec.ismini.models.Store;
 
-public class CustomAdapter extends ArrayAdapter<Store> {
+public class StoreAdapter extends ArrayAdapter<Store> {
 
-    public CustomAdapter(Context context, Store[] resource) {
+    public StoreAdapter(Context context, Store[] resource) {
         super(context, R.layout.custom_row, resource);
     }
 
@@ -25,7 +25,6 @@ public class CustomAdapter extends ArrayAdapter<Store> {
 
         TextView storeText = (TextView) customView.findViewById(R.id.storeTextView);
         TextView addressText = (TextView) customView.findViewById(R.id.addressTextView);
-
 
         storeText.setText(storeName);
         addressText.setText(address);

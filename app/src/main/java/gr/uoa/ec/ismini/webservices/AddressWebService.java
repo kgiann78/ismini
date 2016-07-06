@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import gr.uoa.ec.ismini.HomeActivity;
-import gr.uoa.ec.ismini.entities.Address;
-import gr.uoa.ec.ismini.entities.Store;
+import gr.uoa.ec.ismini.models.Address;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.xmlpull.v1.XmlPullParserException;
@@ -16,9 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-/**
- * Created by constantine on 7/4/16.
- */
 public class AddressWebService extends SoapThread {
     private Activity parent;
 
@@ -30,7 +26,7 @@ public class AddressWebService extends SoapThread {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected Object doInBackground(String... strings) {
         String response = "";
 
         try {
@@ -43,27 +39,23 @@ public class AddressWebService extends SoapThread {
                     } else if (result instanceof SoapObject) {
                         response = RetrieveFromSoap((SoapObject)result).toString();
                     }
-
-                    Log.i("soap_response", response.toString());
                 }else if (strings[0].equals(FIND)) {
                     HashMap<String, Object> properties = new HashMap<>();
                     properties.put("id", Integer.parseInt(strings[1]));
 
                     SoapObject result = (SoapObject) soapCallWithProperties(FIND, NAMESPACE + SERVICE + "/findRequest", properties);
                     response = RetrieveFromSoap(result).toString();
-                    Log.i("soap_response", response.toString());
                 } else if (strings[0].equals(COUNT)) {
                     SoapPrimitive result = (SoapPrimitive) soapCall(COUNT, NAMESPACE + SERVICE + "/countRequest");
                     Log.i("soap_response", "result : " + result.toString());
                     response = RetrieveFromSoap(result).toString();
-                    Log.i("soap_response", response.toString());
                 }
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(AddressWebService.class.toString() + ": soap_response", e.toString());
         } catch (XmlPullParserException e) {
-            e.printStackTrace();
+            Log.e(AddressWebService.class.toString() + ":soap_response", e.toString());
         }
         finally {
             return response;
@@ -71,14 +63,14 @@ public class AddressWebService extends SoapThread {
     }
 
     @Override
-    protected void onPostExecute(String s) {
+    protected void onPostExecute(Object s) {
         Intent resultIntent = new Intent(parent, HomeActivity.class);
         String msg = "SOAP result: " + s;
         resultIntent.putExtra("result", msg);
         parent.startActivity(resultIntent);
     }
 
-    public Address RetrieveFromSoap(SoapObject soapObject)
+    private Address RetrieveFromSoap(SoapObject soapObject)
     {
         String description = soapObject.getProperty(0).toString();
         int addressKey = Integer.parseInt(soapObject.getProperty(1).toString());
@@ -87,11 +79,10 @@ public class AddressWebService extends SoapThread {
         return address;
     }
 
-    public List<Address> RetrieveFromSoap(Vector<SoapObject> soapObjectVector) {
+    private List<Address> RetrieveFromSoap(Vector<SoapObject> soapObjectVector) {
         List<Address> addressList = new ArrayList<Address>();
 
-        for (int i = 0; i < soapObjectVector.size(); i++) {
-            SoapObject soapAddress = soapObjectVector.get(i);
+        for (SoapObject soapAddress : soapObjectVector) {
             String description = soapAddress.getProperty(0).toString();
             int addressKey = Integer.parseInt(soapAddress.getProperty(1).toString());
             Address address = new Address(description, addressKey);
@@ -100,7 +91,8 @@ public class AddressWebService extends SoapThread {
         return addressList;
     }
 
-    public Object RetrieveFromSoap(SoapPrimitive soapPrimitive) {
+    private Object RetrieveFromSoap(SoapPrimitive soapPrimitive) {
         return soapPrimitive.getValue();
     }
+
 }
