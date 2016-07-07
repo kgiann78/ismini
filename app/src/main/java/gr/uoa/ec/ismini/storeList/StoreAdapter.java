@@ -1,4 +1,4 @@
-package gr.uoa.ec.ismini.helpers;
+package gr.uoa.ec.ismini.storeList;
 
 import android.content.Context;
 import android.view.LayoutInflater;

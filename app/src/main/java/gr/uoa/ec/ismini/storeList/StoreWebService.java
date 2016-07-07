@@ -1,11 +1,12 @@
-package gr.uoa.ec.ismini.webservices;
+package gr.uoa.ec.ismini.storeList;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import gr.uoa.ec.ismini.ProductListActivity;
+import gr.uoa.ec.ismini.productList.ProductListActivity;
 import gr.uoa.ec.ismini.models.Address;
 import gr.uoa.ec.ismini.models.Store;
+import gr.uoa.ec.ismini.util.SoapThread;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 

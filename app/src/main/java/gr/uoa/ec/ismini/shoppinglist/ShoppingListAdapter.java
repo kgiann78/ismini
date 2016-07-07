@@ -1,4 +1,4 @@
-package gr.uoa.ec.ismini.helpers;
+package gr.uoa.ec.ismini.shoppingList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,12 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import gr.uoa.ec.ismini.R;
-import gr.uoa.ec.ismini.models.Product;
-import gr.uoa.ec.ismini.models.ShoppingCartItem;
+import gr.uoa.ec.ismini.models.ShoppingListItem;
 
-public class ShoppingCartAdapter extends ArrayAdapter<ShoppingCartItem> {
+public class ShoppingListAdapter extends ArrayAdapter<ShoppingListItem> {
 
-    public ShoppingCartAdapter(Context context, ShoppingCartItem[] resource) {
+    public ShoppingListAdapter(Context context, ShoppingListItem[] resource) {
         super(context, R.layout.custom_row, resource);
     }
 

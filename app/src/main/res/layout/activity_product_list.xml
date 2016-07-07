@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_height="fill_parent"
               android:layout_width="fill_parent"
-              tools:context=".ProductListActivity">
+              tools:context=".productList.ProductListActivity">
     <Button android:id="@+id/view_shopping_cart"
             android:gravity="right"
             android:layout_width="wrap_content"

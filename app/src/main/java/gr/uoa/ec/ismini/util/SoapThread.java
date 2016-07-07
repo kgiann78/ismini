@@ -1,4 +1,4 @@
-package gr.uoa.ec.ismini.webservices;
+package gr.uoa.ec.ismini.util;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,14 +13,14 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public abstract class SoapThread extends AsyncTask<String, Void, Object> {
-    String NAMESPACE ;
-    String URL;
-    String SERVICE;
-    String FIND_ALL = "findAll";
-    String FIND = "find";
-    String COUNT = "count";
+    protected String NAMESPACE ;
+    protected String URL;
+    protected String SERVICE;
+    protected String FIND_ALL = "findAll";
+    protected String FIND = "find";
+    protected String COUNT = "count";
 
-    Object soapCallWithProperties(String methodName, String soapAction, HashMap<String, Object> properties) throws IOException, XmlPullParserException {
+    protected Object soapCallWithProperties(String methodName, String soapAction, HashMap<String, Object> properties) throws IOException, XmlPullParserException {
         SoapObject request = new SoapObject(NAMESPACE, methodName);
 
         for (String key : properties.keySet()) {
@@ -38,7 +38,7 @@ public abstract class SoapThread extends AsyncTask<String, Void, Object> {
         return envelope.getResponse();
     }
 
-    Object soapCall(String methodName, String soapAction) throws IOException, XmlPullParserException {
+    protected Object soapCall(String methodName, String soapAction) throws IOException, XmlPullParserException {
         SoapObject request = new SoapObject(NAMESPACE, methodName);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER10);

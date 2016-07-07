@@ -1,10 +1,10 @@
-package gr.uoa.ec.ismini.helpers;
+package gr.uoa.ec.ismini.productList;
 
 import gr.uoa.ec.ismini.models.Category;
 import gr.uoa.ec.ismini.models.Product;
 
 
-public class ProductsDummy {
+public class DummyProducts {
     private static Category[] categories = new Category[] {
             new Category("Σαλάτες", 1, "Salads"),
             new Category("Ζυμαρικά", 2, "Pasta"),

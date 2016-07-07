@@ -26,22 +26,22 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".ProductListActivity"
+                android:name=".productList.ProductListActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-                android:name=".ShoppingCartActivity"
+                android:name=".shoppingList.ShoppingCartActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-                android:name=".LoginActivity"
+                android:name=".login.LoginActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-                android:name=".CreateAccountActivity"
+                android:name=".login.CreateAccountActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -57,14 +57,10 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>
 
-        <activity
-                android:name=".MapsActivity"
-                android:label="@string/title_activity_maps">
-        </activity>
-        <activity android:name=".ProductDetailActivity">
+        <activity android:name=".productDetail.ProductDetailActivity">
         </activity>
         <activity
-                android:name=".ShoppingListActivity"
+                android:name=".shoppingList.ShoppingListActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

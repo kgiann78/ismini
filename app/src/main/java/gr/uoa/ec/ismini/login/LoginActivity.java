@@ -1,4 +1,4 @@
-package gr.uoa.ec.ismini;
+package gr.uoa.ec.ismini.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -30,6 +30,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import gr.uoa.ec.ismini.R;
+import gr.uoa.ec.ismini.productList.ProductListActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
-package gr.uoa.ec.ismini;
+package gr.uoa.ec.ismini.shoppingList;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -8,13 +7,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import gr.uoa.ec.ismini.helpers.ShoppingCart;
-import gr.uoa.ec.ismini.helpers.ShoppingCartAdapter;
-import gr.uoa.ec.ismini.models.ShoppingCartItem;
+import gr.uoa.ec.ismini.R;
+import gr.uoa.ec.ismini.models.ShoppingListItem;
 
 public class ShoppingCartActivity extends AppCompatActivity {
 
-    ShoppingCartItem[] shoppingCart = {};
+    ShoppingListItem[] shoppingCart = {};
     ListAdapter mAdapter;
     ListView mListView;
 
@@ -22,10 +20,10 @@ public class ShoppingCartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
-        shoppingCart = ShoppingCart.getShoppingCart();
+        shoppingCart = DummyShoppingList.getShoppingCart();
 
         mListView = (ListView) findViewById(R.id.shopping_cart_list);
-        mAdapter = new ShoppingCartAdapter(ShoppingCartActivity.this, shoppingCart);
+        mAdapter = new ShoppingListAdapter(ShoppingCartActivity.this, shoppingCart);
         mListView.setAdapter(mAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

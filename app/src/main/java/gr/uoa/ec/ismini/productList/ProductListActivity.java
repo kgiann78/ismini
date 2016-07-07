@@ -1,4 +1,4 @@
-package gr.uoa.ec.ismini;
+package gr.uoa.ec.ismini.productList;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +9,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import gr.uoa.ec.ismini.helpers.ProductAdapter;
-import gr.uoa.ec.ismini.helpers.ProductsDummy;
-import gr.uoa.ec.ismini.helpers.ShoppingCart;
+import gr.uoa.ec.ismini.R;
+import gr.uoa.ec.ismini.shoppingList.ShoppingCartActivity;
+import gr.uoa.ec.ismini.productDetail.ProductDetailActivity;
+import gr.uoa.ec.ismini.shoppingList.DummyShoppingList;
 import gr.uoa.ec.ismini.models.Product;
-import gr.uoa.ec.ismini.webservices.AddressWebService;
-import gr.uoa.ec.ismini.webservices.CustomerWebService;
-import gr.uoa.ec.ismini.webservices.StoreWebService;
+import gr.uoa.ec.ismini.storeList.AddressWebService;
+import gr.uoa.ec.ismini.login.CustomerWebService;
+import gr.uoa.ec.ismini.storeList.StoreWebService;
 
 public class ProductListActivity extends AppCompatActivity {
 
@@ -74,7 +75,7 @@ public class ProductListActivity extends AppCompatActivity {
         shoppingCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ShoppingCart.getShoppingCart().length > 0) {
+                if (DummyShoppingList.getShoppingCart().length > 0) {
                     Intent addToBasketIntent = new Intent(ProductListActivity.this, ShoppingCartActivity.class);
                     startActivity(addToBasketIntent);
                 }
@@ -102,7 +103,7 @@ public class ProductListActivity extends AppCompatActivity {
 //            soapResult = extras.getString("result");
 //            Log.i("soap_response", soapResult);
             try {
-                products = ProductsDummy.getProducts();
+                products = DummyProducts.getProducts();
 
                 mListView.setAdapter(null);
                 mAdapter = new ProductAdapter(ProductListActivity.this, products);

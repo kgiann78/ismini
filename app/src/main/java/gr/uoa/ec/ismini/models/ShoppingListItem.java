@@ -1,10 +1,10 @@
 package gr.uoa.ec.ismini.models;
 
-public class ShoppingCartItem {
+public class ShoppingListItem {
     private Product product;
     private int amount;
 
-    public ShoppingCartItem(Product product, int amount) {
+    public ShoppingListItem(Product product, int amount) {
         this.product = product;
         this.amount = amount;
     }

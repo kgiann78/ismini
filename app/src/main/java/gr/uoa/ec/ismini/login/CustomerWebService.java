@@ -1,28 +1,28 @@
-package gr.uoa.ec.ismini.webservices;
+package gr.uoa.ec.ismini.login;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import gr.uoa.ec.ismini.ProductListActivity;
+import gr.uoa.ec.ismini.productList.ProductListActivity;
 import gr.uoa.ec.ismini.models.Address;
+import gr.uoa.ec.ismini.models.Customer;
+import gr.uoa.ec.ismini.util.SoapThread;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
-import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-public class AddressWebService extends SoapThread {
+public class CustomerWebService extends SoapThread {
     private Activity parent;
 
-    public AddressWebService(Activity parent) {
+    public CustomerWebService(Activity parent) {
         this.parent = parent;
-        NAMESPACE = "http://address.ws/";
-        URL = "http://snf-649502.vm.okeanos.grnet.gr:8080/AddressWebService/AddressWebService";
-        SERVICE = "AddressWebService";
+        NAMESPACE = "http://customer.ws/";
+        URL = "http://snf-649502.vm.okeanos.grnet.gr:8080/CustomerWebService/CustomerWebService";
+        SERVICE = "CustomerWebService";
     }
 
     @Override
@@ -47,15 +47,12 @@ public class AddressWebService extends SoapThread {
                     response = RetrieveFromSoap(result).toString();
                 } else if (strings[0].equals(COUNT)) {
                     SoapPrimitive result = (SoapPrimitive) soapCall(COUNT, NAMESPACE + SERVICE + "/countRequest");
-                    Log.i("soap_response", "result : " + result.toString());
                     response = RetrieveFromSoap(result).toString();
                 }
             }
 
-        } catch (IOException e) {
-            Log.e(AddressWebService.class.toString() + ": soap_response", e.toString());
-        } catch (XmlPullParserException e) {
-            Log.e(AddressWebService.class.toString() + ":soap_response", e.toString());
+        } catch (Exception e) {
+            Log.e(CustomerWebService.class.toString() + ": soap_response", e.toString());
         }
         finally {
             return response;
@@ -65,34 +62,51 @@ public class AddressWebService extends SoapThread {
     @Override
     protected void onPostExecute(Object s) {
         Intent resultIntent = new Intent(parent, ProductListActivity.class);
-        String msg = "SOAP result: " + s;
-        resultIntent.putExtra("result", msg);
+        resultIntent.putExtra("result", s.toString());
         parent.startActivity(resultIntent);
     }
 
-    private Address RetrieveFromSoap(SoapObject soapObject)
+
+
+    private Customer RetrieveFromSoap(SoapObject soapObject)
     {
-        String description = soapObject.getProperty(0).toString();
-        int addressKey = Integer.parseInt(soapObject.getProperty(1).toString());
+        Log.i("soap_response", soapObject.toString());
+        SoapObject soapAddress = (SoapObject) soapObject.getProperty(0);
+        String description = soapAddress.getProperty(0).toString();
+        int addressKey = Integer.parseInt(soapAddress.getProperty(1).toString());
         Address address = new Address(description, addressKey);
 
-        return address;
+        int key = Integer.parseInt(soapObject.getProperty(2).toString());
+        String firstName = soapObject.getProperty(1).toString();
+        String lastName = soapObject.getProperty(3).toString();
+        String username = soapObject.getProperty(5).toString();
+        String password = soapObject.getProperty(4).toString();
+
+        return new Customer(address, key, firstName, lastName, username, password);
     }
 
-    private List<Address> RetrieveFromSoap(Vector<SoapObject> soapObjectVector) {
-        List<Address> addressList = new ArrayList<Address>();
-
-        for (SoapObject soapAddress : soapObjectVector) {
+    private List<Customer> RetrieveFromSoap(Vector<SoapObject> soapObjectVector) {
+        List<Customer> customerList = new ArrayList<Customer>();
+        Log.i("soap_response", "mphka kai edw");
+        for (SoapObject soapCustomer : soapObjectVector) {
+            // get address
+            SoapObject soapAddress = (SoapObject) soapCustomer.getProperty(0);
             String description = soapAddress.getProperty(0).toString();
             int addressKey = Integer.parseInt(soapAddress.getProperty(1).toString());
             Address address = new Address(description, addressKey);
-            addressList.add(address);
+
+            int key = Integer.parseInt(soapCustomer.getProperty(2).toString());
+            String firstName = soapCustomer.getProperty(1).toString();
+            String lastName = soapCustomer.getProperty(3).toString();
+            String username = soapCustomer.getProperty(5).toString();
+            String password = soapCustomer.getProperty(4).toString();
+
+            customerList.add(new Customer(address, key, firstName, lastName, username, password));
         }
-        return addressList;
+        return customerList;
     }
 
     private Object RetrieveFromSoap(SoapPrimitive soapPrimitive) {
         return soapPrimitive.getValue();
     }
-
 }

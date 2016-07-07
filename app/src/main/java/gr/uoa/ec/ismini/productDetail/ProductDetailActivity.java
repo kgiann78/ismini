@@ -1,6 +1,5 @@
-package gr.uoa.ec.ismini;
+package gr.uoa.ec.ismini.productDetail;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,10 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
-import com.google.gson.stream.MalformedJsonException;
-import gr.uoa.ec.ismini.helpers.ShoppingCart;
+import gr.uoa.ec.ismini.R;
+import gr.uoa.ec.ismini.shoppingList.DummyShoppingList;
 import gr.uoa.ec.ismini.models.Product;
-import gr.uoa.ec.ismini.models.ShoppingCartItem;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -47,7 +45,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if (product != null) {
-                        ShoppingCart.add(product);
+                        DummyShoppingList.add(product);
                     }
                 }
             });

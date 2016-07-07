@@ -1,4 +1,4 @@
-package gr.uoa.ec.ismini.helpers;
+package gr.uoa.ec.ismini.productList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import gr.uoa.ec.ismini.R;
 import gr.uoa.ec.ismini.models.Product;
-import gr.uoa.ec.ismini.models.Store;
 
 public class ProductAdapter extends ArrayAdapter<Product> {
 

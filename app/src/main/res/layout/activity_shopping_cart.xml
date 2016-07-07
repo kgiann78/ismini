@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_height="fill_parent"
               android:layout_width="fill_parent"
-              tools:context=".ShoppingCartActivity">
+              tools:context=".shoppingList.ShoppingCartActivity">
 
     <TextView android:id="@+id/TextView01"
               android:layout_width="wrap_content"
