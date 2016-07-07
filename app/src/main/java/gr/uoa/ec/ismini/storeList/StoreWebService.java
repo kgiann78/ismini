@@ -16,12 +16,14 @@ public class StoreWebService extends SoapThread {
     private Activity parent;
     private String ESTIMATE_COMPLETION_TIME_BY_ORDER = "estimateCompletionTimeByOrder";
     private String ESTIMATE_COMPLETION_TIME_BY_STORE = "estimateCompletionTimeByStore";
+    private StoreAdapter adapter;
 
-    public StoreWebService(Activity parent) {
+    public StoreWebService(Activity parent, StoreAdapter sa) {
         this.parent = parent;
         NAMESPACE = "http://store.ws/";
         URL = "http://snf-649502.vm.okeanos.grnet.gr:8080/StoreWebService/StoreWebService";
         SERVICE = "StoreWebService";
+        adapter = sa;
     }
 
     @Override
@@ -76,10 +78,12 @@ public class StoreWebService extends SoapThread {
 
     @Override
     protected void onPostExecute(Object s) {
-        Intent resultIntent = new Intent(parent, ProductListActivity.class);
+//        Intent resultIntent = new Intent(parent, ProductListActivity.class);
         if (s != null) {
-            resultIntent.putExtra("result", s.toString());
-            parent.startActivity(resultIntent);
+//            resultIntent.putExtra("result", s.toString());
+            adapter.addAll((List<Store>) s);
+            adapter.notifyDataSetChanged();
+//            parent.startActivity(resultIntent);
         }
     }
 

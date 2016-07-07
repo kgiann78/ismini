@@ -6,12 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import java.util.Collection;
+import java.util.List;
+
 import gr.uoa.ec.ismini.R;
 import gr.uoa.ec.ismini.models.Store;
 
 public class StoreAdapter extends ArrayAdapter<Store> {
 
-    public StoreAdapter(Context context, Store[] resource) {
+    public StoreAdapter(Context context, List<Store> resource) {
         super(context, R.layout.custom_row, resource);
     }
 
@@ -31,4 +35,5 @@ public class StoreAdapter extends ArrayAdapter<Store> {
 
         return customView;
     }
+
 }
