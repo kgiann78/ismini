@@ -24,12 +24,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
 
         Button mGetUserAddress = (Button) findViewById(R.id.get_address_button);
-        mGetUserAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(CreateAccountActivity.this, MapsActivity.class));
-            }
-        });
     }
 
     private void attemptCreate() {

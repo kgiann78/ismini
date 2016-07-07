@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/app_bar_shopping_list"
+        tools:context="gr.uoa.ec.ismini.storeList.StoreListActivity">
+    <LinearLayout android:orientation="vertical"
+                  android:layout_height="fill_parent"
+                  android:layout_width="fill_parent">
+
+    <ListView android:layout_height="0dp"
+              android:layout_weight="1"
+              android:id="@+id/store_list"
+              android:layout_width="fill_parent"
+              android:background="#ffffff"
+              android:cacheColorHint="#ffffff"
+              android:clickable="true"
+              android:choiceMode="multipleChoice">
+
+    </ListView>
+    </LinearLayout>
+</RelativeLayout>
