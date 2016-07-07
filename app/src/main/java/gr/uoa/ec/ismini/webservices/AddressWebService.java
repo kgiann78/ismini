@@ -3,7 +3,7 @@ package gr.uoa.ec.ismini.webservices;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import gr.uoa.ec.ismini.HomeActivity;
+import gr.uoa.ec.ismini.ProductListActivity;
 import gr.uoa.ec.ismini.models.Address;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
@@ -64,7 +64,7 @@ public class AddressWebService extends SoapThread {
 
     @Override
     protected void onPostExecute(Object s) {
-        Intent resultIntent = new Intent(parent, HomeActivity.class);
+        Intent resultIntent = new Intent(parent, ProductListActivity.class);
         String msg = "SOAP result: " + s;
         resultIntent.putExtra("result", msg);
         parent.startActivity(resultIntent);

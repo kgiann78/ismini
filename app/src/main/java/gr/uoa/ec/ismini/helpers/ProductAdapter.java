@@ -19,17 +19,17 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        View customView = layoutInflater.inflate(R.layout.custom_row, parent, false);
+        View productView = layoutInflater.inflate(R.layout.product_row, parent, false);
 
         String productName = getItem(position).getName();
         String price = String.valueOf(getItem(position).getPrice());
 
-        TextView storeText = (TextView) customView.findViewById(R.id.storeTextView);
-        TextView addressText = (TextView) customView.findViewById(R.id.addressTextView);
+        TextView productNameTextView = (TextView) productView.findViewById(R.id.product_name);
+        TextView productPriceTextView = (TextView) productView.findViewById(R.id.product_price);
 
-        storeText.setText(productName);
-        addressText.setText(price);
+        productNameTextView.setText(productName);
+        productPriceTextView.setText(price + "€");
 
-        return customView;
+        return productView;
     }
 }

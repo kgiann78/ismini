@@ -1,8 +1,14 @@
 package gr.uoa.ec.ismini;
 
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import android.util.Log;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -10,9 +16,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +50,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        mMap.setMyLocationEnabled(true);
+
+        String location = "Afrodiths 2, Chaidari, Attiki, 12462, Greece";
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> addresses = new ArrayList<>();
+        try {
+            addresses = geocoder.getFromLocationName(location, 1);
+        } catch (IOException e) {
+            Log.e("map_activity", e.toString());
+        }
+
+        if (addresses.size() > 0) {
+            Address address = addresses.get(0);
+
+            LatLng chaidari = new LatLng(address.getLatitude(), address.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(chaidari).title("Marker in Chaidari"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(chaidari));
+        }
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        LatLng sydney = new LatLng(-34, 151);
+////        Location location = new Location("Afrodiths 2, Chaidari, Attiki, 12462");
+//        Location location = googleMap.getMyLocation();
+//        Location lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation();
+//        LatLng chaidari = new LatLng(location.getLatitude(), location.getLongitude());
+//
+//
     }
 }

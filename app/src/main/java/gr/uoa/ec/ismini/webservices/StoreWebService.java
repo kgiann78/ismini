@@ -3,14 +3,12 @@ package gr.uoa.ec.ismini.webservices;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import gr.uoa.ec.ismini.HomeActivity;
+import gr.uoa.ec.ismini.ProductListActivity;
 import gr.uoa.ec.ismini.models.Address;
 import gr.uoa.ec.ismini.models.Store;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
-import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.IOException;
 import java.util.*;
 
 public class StoreWebService extends SoapThread {
@@ -77,9 +75,11 @@ public class StoreWebService extends SoapThread {
 
     @Override
     protected void onPostExecute(Object s) {
-        Intent resultIntent = new Intent(parent, HomeActivity.class);
-        resultIntent.putExtra("result", s.toString());
-        parent.startActivity(resultIntent);
+        Intent resultIntent = new Intent(parent, ProductListActivity.class);
+        if (s != null) {
+            resultIntent.putExtra("result", s.toString());
+            parent.startActivity(resultIntent);
+        }
     }
 
     private Store RetrieveFromSoap(SoapObject soapObject)

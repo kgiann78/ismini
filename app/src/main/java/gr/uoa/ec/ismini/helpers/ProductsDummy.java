@@ -17,7 +17,7 @@ public class ProductsDummy {
     private static Product[] products = new Product[] {
             new Product("Caesars Salad", "Σαλάτα Καίσαρα", 1, categories[0] , 5.0, 5.0),
             new Product("Greek Salad", "Χωριάτικη", 2, categories[0], 5.0, 5.0),
-            new Product("Chef's Salad", "Σαλάτα του Σέφ", 3, categories[0], 5.0, 5.0),
+            new Product("Chef Salad", "Σαλάτα του Σέφ", 3, categories[0], 5.0, 5.0),
             new Product("Spaghetti Bolonese", "Μακαρόνια με κιμά", 4, categories[1], 5.0, 5.0),
             new Product("Carbonara", "Καρμπονάρα", 5, categories[1], 5.0, 5.0),
             new Product("Tagliatelle al tono", "Ταλιατέλες με τόνο", 6, categories[1], 5.0, 5.0),
