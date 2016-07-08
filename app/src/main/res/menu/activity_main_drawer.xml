@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Logout" />
+    </group>
+    <item android:title="Nearby">
+        <menu>
+            <item
+                android:id="@+id/nav_stores"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Stores" />
+            <item
+                android:id="@+id/nav_products"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Products" />
+            <item
+                android:id="@+id/nav_reviews"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Reviews" />
+        </menu>
+    </item>
+
+    <item android:title="Archive">
+        <menu>
+            <item
+                android:id="@+id/nav_history"
+                android:icon="@drawable/ic_menu_send"
+                android:title="ShoppingHistory" />
+            <item
+                android:id="@+id/nav_statistics"
+                android:icon="@drawable/ic_menu_send"
+                android:title="ShoppingStatistics" />
+        </menu>
+    </item>
+
+</menu>
