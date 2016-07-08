@@ -2,6 +2,8 @@ package gr.uoa.ec.ismini;
 
 import org.junit.Test;
 
+import gr.uoa.ec.ismini.util.IsminiRSClient;
+
 import static org.junit.Assert.*;
 
 /**

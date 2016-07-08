@@ -13,17 +13,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import gr.uoa.ec.ismini.R;
 import gr.uoa.ec.ismini.models.Product;
+import gr.uoa.ec.ismini.models.Store;
 import gr.uoa.ec.ismini.productList.DummyProducts;
 import gr.uoa.ec.ismini.productList.ProductAdapter;
 
 public class StoreListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Product[] products = DummyProducts.getProducts();
-    ListView mProducts;
-    ProductAdapter mAdaptor;
+    List<Store> stores = new ArrayList<>();
+    ListView mStore;
+    StoreAdapter mAdaptor;
+    StoreWebService webService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +38,13 @@ public class StoreListActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mProducts = (ListView) findViewById(R.id.store_list);
-        mAdaptor = new ProductAdapter(StoreListActivity.this, products);
-        mProducts.setAdapter(mAdaptor);
+
+        mStore = (ListView) findViewById(R.id.store_list);
+        mAdaptor = new StoreAdapter(StoreListActivity.this, stores);
+        mStore.setAdapter(mAdaptor);
+        webService = new StoreWebService(this, mAdaptor);
+
+        webService.execute("findAll");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.store_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -110,5 +120,11 @@ public class StoreListActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_store_list);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        webService.cancel(true);
     }
 }

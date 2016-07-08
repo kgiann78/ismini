@@ -42,7 +42,7 @@ public class ProductListActivity extends AppCompatActivity {
 
         shoppingCartButton = (Button) findViewById(R.id.view_shopping_cart);
 
-        storeWebService = new StoreWebService(this);
+        storeWebService = new StoreWebService(this, null);
         addressWebService = new AddressWebService(this);
         customerWebService = new CustomerWebService(this);
 
@@ -127,5 +127,11 @@ public class ProductListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        if ( storeWebService != null ) storeWebService.cancel(true);
     }
 }
