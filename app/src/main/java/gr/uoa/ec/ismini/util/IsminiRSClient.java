@@ -25,7 +25,7 @@ public class IsminiRSClient {
 
     public IsminiRSClient(ResourceOptions options) {
         OPTIONS = options;
-        BASE_URL = "http://192.168.1.3:8080/Ismini-RS/ws/";
+        BASE_URL = "http://83.212.119.169:9090/Ismini-RS/ws/";
     }
 
     public IsminiRSClient(String host, int port, ResourceOptions options){

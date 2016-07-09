@@ -9,6 +9,10 @@ import android.support.v7.widget.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Toast;
+import gr.uoa.ec.ismini.MainActivity;
 import gr.uoa.ec.ismini.R;
 
 /**
@@ -67,7 +71,7 @@ public class ResourceListFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setEmptyText("No applications");
+//        setEmptyText("No applications");
         setHasOptionsMenu(true);
         if(mAdapter != null){
             mAdapter.clear();
@@ -75,6 +79,12 @@ public class ResourceListFragment
         mAdapter = new ResourceListAdapter(getActivity(), R.layout.list_item_text, new ArrayList<>());
         setListAdapter(mAdapter);
         getLoaderManager().initLoader(0, savedInstanceState, this);
-//        getListView().setOnItemClickListener();
+
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(ResourceListFragment.this.getActivity(), "Aloha", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

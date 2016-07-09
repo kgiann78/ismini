@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import java.util.HashMap;
 
+import android.util.Log;
 import gr.uoa.ec.ismini.R;
 
 /**
@@ -63,17 +64,23 @@ public class ResourceOptions {
         switch (id){
             case R.id.nav_stores:
                 type = ResourceType.store;
+                Log.i(ResourceOptions.class.toString(), "nav_stores");
                 break;
             case R.id.nav_products:
                 type = ResourceType.product;
+                Log.i(ResourceOptions.class.toString(), "nav_products");
                 break;
             case R.id.nav_profile:
+                type = ResourceType.customer;
+                break;
             case R.id.nav_history:
             case R.id.nav_statistics:
             case R.id.nav_reviews:
+                Log.i(ResourceOptions.class.toString(), "nav_reviews");
                 type = ResourceType.storereview;
                 break;
             default:
+                Log.i(ResourceOptions.class.toString(), "default");
                 type = ResourceType.store;
         }
         return new ResourceOptions(ResourceFilter.all,ResourceOperation.findAll, type);
