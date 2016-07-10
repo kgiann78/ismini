@@ -64,11 +64,9 @@ public class ResourceOptions {
         switch (id){
             case R.id.nav_stores:
                 type = ResourceType.store;
-                Log.i(ResourceOptions.class.toString(), "nav_stores");
                 break;
             case R.id.nav_products:
                 type = ResourceType.product;
-                Log.i(ResourceOptions.class.toString(), "nav_products");
                 break;
             case R.id.nav_profile:
                 type = ResourceType.customer;
@@ -76,12 +74,11 @@ public class ResourceOptions {
             case R.id.nav_history:
             case R.id.nav_statistics:
             case R.id.nav_reviews:
-                Log.i(ResourceOptions.class.toString(), "nav_reviews");
                 type = ResourceType.storereview;
                 break;
             default:
-                Log.i(ResourceOptions.class.toString(), "default");
-                type = ResourceType.store;
+                type = ResourceType.product;
+                break;
         }
         return new ResourceOptions(ResourceFilter.all,ResourceOperation.findAll, type);
     }

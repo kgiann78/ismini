@@ -93,10 +93,9 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        // TODO refresh fragment by id
 
+        // reset all items of drawer to false before checking the selected item
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
         for (int i=0; i < navigationView.getMenu().size(); i++) {
             MenuItem checkedItem = navigationView.getMenu().getItem(i);
             if (checkedItem.hasSubMenu()) {
@@ -107,21 +106,20 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
-
         item.setChecked(true);
 
-
+        // refresh the reload new fragment with selected resource
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment resourceListFragment = new ResourceListFragment();
+
+        // set NAV_KEY id to the new fragment
         Bundle bundle = new Bundle();
         bundle.putInt("NAV_KEY", id);
         resourceListFragment.setArguments(bundle);
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment currentResourceFragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
-
         fragmentTransaction.remove(currentResourceFragment);
         fragmentTransaction.add(R.id.fragment, resourceListFragment).commit();
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

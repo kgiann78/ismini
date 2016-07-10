@@ -24,7 +24,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         String price = String.valueOf(getItem(position).getPrice());
 
         TextView productNameTextView = (TextView) productView.findViewById(R.id.product_name);
-        TextView productPriceTextView = (TextView) productView.findViewById(R.id.product_price);
+        TextView productPriceTextView = (TextView) productView.findViewById(R.id.product_description);
 
         productNameTextView.setText(productName);
         productPriceTextView.setText(price + "€");

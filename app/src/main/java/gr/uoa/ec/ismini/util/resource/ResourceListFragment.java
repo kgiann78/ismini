@@ -1,6 +1,8 @@
 package gr.uoa.ec.ismini.util.resource;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -9,11 +11,13 @@ import android.support.v7.widget.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import gr.uoa.ec.ismini.MainActivity;
 import gr.uoa.ec.ismini.R;
+import gr.uoa.ec.ismini.ResourceDetailActivity;
 
 /**
  *
@@ -31,6 +35,7 @@ public class ResourceListFragment
     public Loader<List<Object>> onCreateLoader(int id, Bundle args) {
         Bundle arguments = getArguments();
         if(arguments != null) id = arguments.getInt("NAV_KEY");
+
         return new ResourceListLoader(getActivity(), id);
     }
 
@@ -71,11 +76,11 @@ public class ResourceListFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        setEmptyText("No applications");
         setHasOptionsMenu(true);
         if(mAdapter != null){
             mAdapter.clear();
         }
+
         mAdapter = new ResourceListAdapter(getActivity(), R.layout.list_item_text, new ArrayList<>());
         setListAdapter(mAdapter);
         getLoaderManager().initLoader(0, savedInstanceState, this);
@@ -83,7 +88,9 @@ public class ResourceListFragment
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(ResourceListFragment.this.getActivity(), "Aloha", Toast.LENGTH_SHORT).show();
+                Intent detailIntent = new Intent(ResourceListFragment.this.getActivity(), ResourceDetailActivity.class);
+                detailIntent.putExtra("resource", mAdapter.getItem(i).toString());
+                startActivity(detailIntent);
             }
         });
     }

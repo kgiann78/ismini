@@ -9,7 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Properties;
 
+import com.google.gson.Gson;
 import gr.uoa.ec.ismini.R;
 
 /**
@@ -25,17 +27,34 @@ public class ResourceListAdapter extends ArrayAdapter<Object>{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view;
-        Log.i(ResourceListAdapter.class.toString(), "getting View");
+        View view = null;
+        Properties properties = new Gson().fromJson(getItem(position).toString(), Properties.class);
 
         if (convertView == null) {
-            view = mInflater.inflate(R.layout.list_item_text, parent, false);
+            switch (properties.getProperty("Type")) {
+                case "product":
+                    view = mInflater.inflate(R.layout.product_row, parent, false);
+                    ((TextView)view.findViewById(R.id.product_name)).setText(properties.getProperty("PName"));
+                    ((TextView)view.findViewById(R.id.product_description)).setText(properties.getProperty("PDesc"));
+                    break;
+                case "store":
+                    view = mInflater.inflate(R.layout.store_row, parent, false);
+                    ((TextView)view.findViewById(R.id.store_name)).setText(properties.getProperty("SName"));
+                    ((TextView)view.findViewById(R.id.store_description)).setText(properties.getProperty("SDesc"));
+                    break;
+                case "customer":
+                    view = mInflater.inflate(R.layout.customer_row, parent, false);
+                    ((TextView)view.findViewById(R.id.customer_username)).setText(properties.getProperty("CUsername"));
+                    ((TextView)view.findViewById(R.id.customer_email)).setText(properties.getProperty("CEmail"));
+                    break;
+                default:
+                    view = mInflater.inflate(R.layout.list_item_text, parent, false);
+                    String item = (String) getItem(position);
+                    ((TextView)view.findViewById(R.id.text)).setText(item);
+            }
         } else {
             view = convertView;
         }
-
-        String item = (String) getItem(position);
-        ((TextView)view.findViewById(R.id.text)).setText(item);
 
         return view;
     }
